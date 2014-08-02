@@ -14,14 +14,12 @@
         </td>
         <td>
             {% if (!i && !o.options.autoUpload) { %}
-                <button class="btn btn-primary start" disabled>
-                    <i class="glyphicon glyphicon-upload"></i>
+                <button class="start" disabled>
                     <span>Start</span>
                 </button>
             {% } %}
             {% if (!i) { %}
-                <button class="btn btn-warning cancel">
-                    <i class="glyphicon glyphicon-ban-circle"></i>
+                <button class="cancel">
                     <span>Cancel</span>
                 </button>
             {% } %}

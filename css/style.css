@@ -12,4 +12,51 @@
 
 body {
   padding-top: 60px;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 12px;
+}
+.table_container{
+	max-height:200px;
+	overflow:auto;
+}
+.container{
+	width:700px;
+}
+.btn {
+    -moz-user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 0;
+    padding: 6px 6px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+.btn-success {
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+    color: #fff;
+}
+.fileinput-button {
+    overflow: hidden;
+    position: relative;
+}
+input[type="file"] {
+    display: block;
+}
+.fileinput-button input {
+    cursor: pointer;
+    direction: ltr;
+    font-size: 200px;
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
 }
