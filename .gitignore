@@ -1,0 +1,9 @@
+.DS_Store
+
+*.pyc
+node_modules
+
+.buildpath
+.project
+.settings/
+server/php/files/

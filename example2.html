@@ -24,27 +24,6 @@
                     <span>Chọn tệp...</span>
                     <input type="file" multiple="" name="files[]">
                 </span>
-                <button type="submit" class="start btn">
-                    <span>Tải lên</span>
-                </button>
-                <button type="reset" class="cancel btn">
-                    <span>Hủy</span>
-                </button>
-                <button type="button" class="delete btn">
-                    <span>Xóa</span>
-                </button>
-                <input type="checkbox" class="toggle">
-                <!-- The global file processing state -->
-                <span class="fileupload-process"></span>
-            </div>
-            <!-- The global progress state -->
-            <div class="fileupload-progress fade">
-                <!-- The global progress bar -->
-                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-                    <div class="progress-bar progress-bar-success" style="width:0%;"></div>
-                </div>
-                <!-- The extended global progress state -->
-                <div class="progress-extended">&nbsp;</div>
             </div>
         </div>
         <!-- The table listing the files available for upload/download -->
@@ -83,70 +62,33 @@
 <script src="js/jquery.fileupload-ui.js"></script>
 <!-- The main application script -->
 <script src="js/main.js"></script>
+<script src="js/md5.min.js"></script>
 <script type = "text/javascript">
 $(function () {
-    'use strict';
-
-    // Initialize the jQuery File Upload widget:
-    $('#fileupload').fileupload({
-        // Uncomment the following to send cross-domain cookies:
-        //xhrFields: {withCredentials: true},
-        url: 'server/php/'
-    });
-
-    // Enable iframe cross-domain access via redirect option:
-    $('#fileupload').fileupload(
-        'option',
-        'redirect',
-        window.location.href.replace(
-            /\/[^\/]*$/,
-            '/cors/result.html?%s'
-        )
-    );
-
-    if (window.location.hostname === 'blueimp.github.io') {
-        // Demo settings:
-        $('#fileupload').fileupload('option', {
-            url: '//jquery-file-upload.appspot.com/',
-            // Enable image resizing, except for Android and Opera,
-            // which actually support image resizing, but fail to
-            // send Blob objects via XHR requests:
-            disableImageResize: /Android(?!.*Chrome)|Opera/
-                .test(window.navigator.userAgent),
-            maxFileSize: 5000000,
-            acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
-        });
-        // Upload server status check for browsers with CORS support:
-        if ($.support.cors) {
-            $.ajax({
-                url: '//jquery-file-upload.appspot.com/',
-                type: 'HEAD'
-            }).fail(function () {
-                $('<div class="alert alert-danger"/>')
-                    .text('Upload server currently unavailable - ' +
-                            new Date())
-                    .appendTo('#fileupload');
-            });
-        }
-    } else {
-        // Load existing files:
-        $('#fileupload').addClass('fileupload-processing');
-        $.ajax({
-            // Uncomment the following to send cross-domain cookies:
-            //xhrFields: {withCredentials: true},
-            url: $('#fileupload').fileupload('option', 'url'),
-            dataType: 'json',
-            context: $('#fileupload')[0]
-        }).always(function () {
-            $(this).removeClass('fileupload-processing');
-        }).done(function (result) {
-            $(this).fileupload('option', 'done')
-                .call(this, $.Event('done'), {result: result});
-        });
-    }
-
+	$(function () {
+	    $('#fileupload').fileupload({
+	    	url: 'server/php/',
+	        dataType: 'json',
+	        add: function (e, data) {
+	        	var progress = parseInt(data.loaded / data.total * 100, 10);
+	            data.context = $('<p id = "_'+md5(data.files[0].name)+'"></p>').text(data.files[0].name).appendTo($('div.table_container'));
+	            data.submit();
+	        }
+	        ,progress: function (e, data) {
+	            var progress = parseInt(data.loaded / data.total * 100, 10);
+	            $('p#_' + md5(data.files[0].name)).text(data.files[0].name + ' ' + progress + ' %');
+	            
+	        } 
+	        /*
+	        ,done: function (e, data) {
+	            $.each(data.result.files, function (index, file) {
+	                $('<p/>').text(file.name).appendTo(document.body);
+	            });
+	        }*/
+	    });
+	});
 });
-	include_template('example2');
+include_template('example2');
 </script>
 <!-- The XDomainRequest Transport is included for cross-domain file deletion for IE 8 and IE 9 -->
 <!--[if (gte IE 8)&(lt IE 10)]>
