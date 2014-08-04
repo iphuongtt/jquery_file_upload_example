@@ -367,6 +367,7 @@
                     removeNode = function () {
                         that._transition(data.context).done(
                             function () {
+                            	datatest = $(this);
                                 $(this).remove();
                                 that._trigger('destroyed', e, data);
                             }

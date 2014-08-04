@@ -48,6 +48,7 @@ class UploadHandler
             'user_dirs' => false,
             'mkdir_mode' => 0755,
             'param_name' => 'files',
+        	'create_folder_by_date' => false,
             // Set the following option to 'POST', if your server does not support
             // DELETE requests. This is a parameter sent to the client:
             'delete_type' => 'DELETE',
@@ -214,8 +215,11 @@ class UploadHandler
             }
             $version_path = $version.'/';
         }
-        return $this->options['upload_dir'].$this->get_user_path()
-            .$version_path.$file_name;
+        $path = $this->options['upload_dir'].$this->get_user_path().$version_path;
+        if($this->options['create_folder_by_date']){
+        	$path = $this->create_folder_by_date($path).DIRECTORY_SEPARATOR;
+        }
+        return $path.$file_name;
     }
 
     protected function get_query_separator($url) {
@@ -1326,6 +1330,31 @@ class UploadHandler
             $response[$file_name] = $success;
         }
         return $this->generate_response($response, $print_response);
+    }
+    public function create_folder_by_date($sPath){
+    	$folderYear = date('Y');
+    	$folderMonth = date('m'); 
+    	$sCurrentDay = date('d');
+    	$sPath = dirname($sPath);
+    	if(!file_exists($sPath .DIRECTORY_SEPARATOR. $folderYear)){
+    		mkdir($sPath .DIRECTORY_SEPARATOR. $folderYear, 0777);
+    		$sPath = $sPath .DIRECTORY_SEPARATOR. $folderYear;
+    		if(!file_exists($sPath . DIRECTORY_SEPARATOR . $folderMonth)){
+    			mkdir($sPath . DIRECTORY_SEPARATOR . $folderMonth, 0777);
+    		}
+    	}else {
+    		$sPath = $sPath .DIRECTORY_SEPARATOR. $folderYear;
+    		if(!file_exists($sPath . DIRECTORY_SEPARATOR . $folderMonth)){
+    			mkdir($sPath . DIRECTORY_SEPARATOR . $folderMonth, 0777);
+    		}
+    	}
+    	//Tao ngay trong nam->thang
+    	if(!file_exists($sPath . DIRECTORY_SEPARATOR . $folderMonth . DIRECTORY_SEPARATOR . $sCurrentDay)){
+    		mkdir($sPath . DIRECTORY_SEPARATOR . $folderMonth . DIRECTORY_SEPARATOR . $sCurrentDay, 0777);
+    	}
+    	//
+    	$strReturn = $sPath . DIRECTORY_SEPARATOR . $folderMonth . DIRECTORY_SEPARATOR . $sCurrentDay.DIRECTORY_SEPARATOR;
+    	return $strReturn;
     }
 
 }

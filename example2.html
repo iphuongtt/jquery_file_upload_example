@@ -27,9 +27,7 @@
             </div>
         </div>
         <!-- The table listing the files available for upload/download -->
-		<div class = "table_container">
-			<table role="presentation" class="table table-striped">
-			<tbody class="files"></tbody></table>
+		<div class = "files">
 		</div>
     </form>
 </div>
@@ -69,22 +67,12 @@ $(function () {
 	    $('#fileupload').fileupload({
 	    	url: 'server/php/',
 	        dataType: 'json',
-	        add: function (e, data) {
-	        	var progress = parseInt(data.loaded / data.total * 100, 10);
-	            data.context = $('<p id = "_'+md5(data.files[0].name)+'"></p>').text(data.files[0].name).appendTo($('div.table_container'));
-	            data.submit();
-	        }
-	        ,progress: function (e, data) {
+	        maxChunkSize: 100000,//100K
+	        autoUpload:true,    
+	        progress: function (e, data) {
 	            var progress = parseInt(data.loaded / data.total * 100, 10);
-	            $('p#_' + md5(data.files[0].name)).text(data.files[0].name + ' ' + progress + ' %');
-	            
-	        } 
-	        /*
-	        ,done: function (e, data) {
-	            $.each(data.result.files, function (index, file) {
-	                $('<p/>').text(file.name).appendTo(document.body);
-	            });
-	        }*/
+	            $('p#_' + md5(data.files[0].name)).children('span.percent').text( progress + '%');
+	        }
 	    });
 	});
 });

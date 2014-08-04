@@ -1,39 +1,14 @@
 <!-- The template to display files available for download -->
 {% for (var i=0, file; file=o.files[i]; i++) { %}
-    <tr class="template-download fade">
-        <td>
-            <span class="preview">
-                {% if (file.thumbnailUrl) { %}
-                    <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.thumbnailUrl%}"></a>
-                {% } %}
-            </span>
-        </td>
-        <td>
-            <p class="name">
-                {% if (file.url) { %}
-                    <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" {%=file.thumbnailUrl?'data-gallery':''%}>{%=file.name%}</a>
-                {% } else { %}
-                    <span>{%=file.name%}</span>
-                {% } %}
-            </p>
-            {% if (file.error) { %}
-                <div><span class="label label-danger">Error</span> {%=file.error%}</div>
-            {% } %}
-        </td>
-        <td>
-            <span class="size">{%=o.formatFileSize(file.size)%}</span>
-        </td>
-        <td>
-            {% if (file.deleteUrl) { %}
-                <button class="delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
-                    <span>Delete</span>
-                </button>
-                <input type="checkbox" name="delete" value="1" class="toggle">
-            {% } else { %}
-                <button class="cancel">
-                    <span>Cancel</span>
-                </button>
-            {% } %}
-        </td>
-    </tr>
+	{% if (file.error) { %}
+        <span class="label label-danger">Error</span> {%=file.error%}</div>
+    {% } %}
+	{% if (file.deleteUrl) { %}
+		<p id = "_{%=md5(file.name)%}" class = "template-download">
+			<a href = "{%=file.url%}">{%=file.name%}</a>
+			<span class = "delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"></span>
+		</p>
+	{% } else { %}
+		<span class="cancel">Hủy</span>
+	{% } %}	
 {% } %}
