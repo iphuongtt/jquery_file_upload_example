@@ -71,3 +71,17 @@ input[type="file"] {
      height: 18px;  
      border-radius: 9px;  
  }  
+ .percent{
+ 	color:#1C2CD6; 
+ }
+span.delete{
+ 	background: url("../img/del.png") no-repeat scroll 0 0 transparent;
+    display: inline-block;
+    height: 16px;
+    line-height: 16px;
+    margin: 0 0 0 5px;
+    padding: 0;
+    vertical-align: middle;
+    width: 16px;
+    cursor: pointer;
+}
