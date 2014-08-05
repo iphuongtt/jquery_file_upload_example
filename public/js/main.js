@@ -16,7 +16,7 @@ function include_template(tem_folder) {
 	$.each(templates, function(index, value){
 		var template = $(value);
 		if (template.length === 0) {
-			var tmpl_dir = './../template/'+ tem_folder;
+			var tmpl_dir = 'template/'+ tem_folder;
 			var tmpl_url = tmpl_dir + '/' + value + '.tmpl';
 			var tmpl_string = '';
 			$.ajax({
