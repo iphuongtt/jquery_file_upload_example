@@ -46,7 +46,7 @@ class UploadHandler
             'upload_dir' => dirname($this->get_server_var('SCRIPT_FILENAME')).'/files/',
             'upload_url' => $this->get_full_url().'/files/',
             'user_dirs' => false,
-            'mkdir_mode' => 0755,
+            'mkdir_mode' => 0777,
             'param_name' => 'files',
         	'create_folder_by_date' => false,
             // Set the following option to 'POST', if your server does not support
