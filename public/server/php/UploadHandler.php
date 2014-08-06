@@ -1033,6 +1033,7 @@ class UploadHandler
             $this->handle_form_data($file, $index);
             $upload_dir = $this->get_upload_path();
             if (!is_dir($upload_dir)) {
+                echo '<br>upload_dir:'.$upload_dir;
                 mkdir($upload_dir, $this->options['mkdir_mode'], true);
             }
             $file_path = $this->get_upload_path($file->name);
@@ -1047,8 +1048,6 @@ class UploadHandler
                         FILE_APPEND
                     );
                 } else {
-                    echo 'file_path:'.$file_path;
-                    echo '<br>uploaded_file:'.$uploaded_file;
                     move_uploaded_file($uploaded_file, $file_path);
                 }
             } else {
