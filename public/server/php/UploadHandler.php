@@ -1047,6 +1047,8 @@ class UploadHandler
                         FILE_APPEND
                     );
                 } else {
+                    echo 'file_path:'.$file_path;
+                    echo '<br>uploaded_file:'.$uploaded_file;
                     move_uploaded_file($uploaded_file, $file_path);
                 }
             } else {
